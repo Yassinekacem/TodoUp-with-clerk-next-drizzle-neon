@@ -3,6 +3,7 @@ import {eq} from "drizzle-orm";
 import {revalidatePath} from "next/cache";
 import {db} from "@/db/drizzle";
 import {todos, users} from "@/db/schema"; 
+import { clerkClient } from "@clerk/nextjs/server";
 
 
 
@@ -29,10 +30,11 @@ export const addUser = async (user : any) => {
   await db.insert(users).values({ 
     clerkId : user?.clerkId,
     email : user?.email,
-    name : user?.name,  
+    name : user?.name!,  
     firstName : user?.firstName,  
     lastName : user?.lastName,
     photo : user?.photo
-  });
+  })
+  .returning({clerkClientId : users?.clerkId})
   // revalidatePath("/");
 };
