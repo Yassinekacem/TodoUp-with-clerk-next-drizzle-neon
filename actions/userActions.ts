@@ -7,10 +7,10 @@ import { clerkClient } from "@clerk/nextjs/server";
 
 
 
-export const getUser = async (userId: number) => {
+export const getUser = async (userId: any) => {
 const user = await db.query.users.findMany(
   {
-    where : (users , {eq}) => eq(users.id , userId) , 
+    where : (users , {eq}) => eq(users.clerkId , userId) , 
     with  : {
       todos: true,
     }
